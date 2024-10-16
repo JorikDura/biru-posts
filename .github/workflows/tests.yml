@@ -1,0 +1,64 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            composer-
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Copy .env file
+        run: |
+          cp .env.ci .env
+          cp .env.ci .env.testing
+
+      - name: Run composer
+        run: |
+          composer install --no-interaction
+
+      - name: Run test suite
+        run: |
+          ./vendor/bin/pest
+        env:
+          DB_DATABASE: cicd_testing
+
+      - name: Run Larastan
+        run: |
+          ./vendor/bin/phpstan analyse
+
+      - name: Run Pint
+        run: |
+          ./vendor/bin/pint --test
+
+    services:
+      pgsql:
+        image: postgres:17
+        env:
+          POSTGRES_DB: 'cicd_testing'
+          POSTGRES_USER: 'tester'
+          POSTGRES_PASSWORD: 'shockich'
+        ports:
+          - 5432:5432
