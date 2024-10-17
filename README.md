@@ -13,6 +13,10 @@
 * PgBouncer;
 * Spatie Laravel Query Builder;
 
+# Схема БД
+
+![image](https://github.com/user-attachments/assets/bc555a8b-b934-4671-a725-7c5ce1d293a4)
+
 # API
 
 Каждый запрос должен принимать `Header`, для получения данных в формате json:
