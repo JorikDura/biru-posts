@@ -555,7 +555,7 @@ sail up -d
 ```
 * Войти внутрь контейнера:
 ```
-docker exec -it guests-php-1 bash
+docker exec -it biru-posts-php-1 bash
 ```
 * Ввести команду
 ```
