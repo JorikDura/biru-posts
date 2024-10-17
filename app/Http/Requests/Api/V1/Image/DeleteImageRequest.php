@@ -15,9 +15,4 @@ class DeleteImageRequest extends FormRequest
             'id.*' => ['required', 'int', 'exists:images,id']
         ];
     }
-
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
