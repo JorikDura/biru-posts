@@ -337,8 +337,10 @@ json:
 ### Like post
 
 ```
-POST api/v1/posts/like
+POST api/v1/posts/{id}/like
 ```
+
+Где `id` - id поста.
 
 Поставить лайк на пост.
 
@@ -349,8 +351,10 @@ POST api/v1/posts/like
 ### Unlike post
 
 ```
-POST api/v1/posts/unlike
+POST api/v1/posts/{id}/unlike
 ```
+
+Где `id` - id поста.
 
 Убрать лайк с поста.
 
