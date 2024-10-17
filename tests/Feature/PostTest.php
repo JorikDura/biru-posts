@@ -168,6 +168,42 @@ describe('posts tests', function () {
             ]);
     });
 
+    it('like post', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        actingAs($this->user)
+            ->postJson("api/v1/posts/$post->id/like")
+            ->assertSuccessful()
+            ->assertNoContent();
+
+        assertDatabaseHas(
+            table: 'like_post',
+            data: [
+                'user_id' => $this->user->id,
+                'post_id' => $post->id,
+            ]
+        );
+    });
+
+    it('unlike post', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        actingAs($this->user)
+            ->postJson("api/v1/posts/$post->id/unlike")
+            ->assertSuccessful()
+            ->assertNoContent();
+
+        assertDatabaseMissing(
+            table: 'like_post',
+            data: [
+                'user_id' => $this->user->id,
+                'post_id' => $post->id,
+            ]
+        );
+    });
+
     it('store post comment', function () {
         /** @var Post $post */
         $post = $this->posts->random();

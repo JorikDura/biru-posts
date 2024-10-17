@@ -24,6 +24,11 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'like_post');
+    }
+
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
