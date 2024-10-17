@@ -16,7 +16,7 @@
 
 # Схема БД
 
-![image](https://github.com/user-attachments/assets/cd903f65-e005-4e61-a80c-ed3e14ae0179)
+![image](https://github.com/user-attachments/assets/f209e104-0f60-47cf-ad8e-2af95fbe3634)
 
 # API
 
