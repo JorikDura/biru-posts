@@ -33,7 +33,7 @@ final readonly class CounterRule implements ValidationRule
 
         if (!$reflection->hasMethod($method = $this->relation)) {
             throw new ReflectionException(
-                message: sprintf(self::ERROR_MESSAGE, $this->relation, $reflection->getShortName())
+                message: sprintf(self::ERROR_MESSAGE, $method, $reflection->getShortName())
             );
         }
 
@@ -43,7 +43,7 @@ final readonly class CounterRule implements ValidationRule
         $dbCount = $this->model->$method->count();
 
         if ($this->max < ($inputCount + $dbCount)) {
-            $fail('validation.custom.image_count')->translate([
+            $fail('validation.custom.counter')->translate([
                 'attribute' => $attribute,
                 'max' => $this->max
             ]);

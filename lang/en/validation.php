@@ -176,8 +176,7 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'image_count' => 'The :attribute has too many things already. Max is :max',
-        ''
+        'counter' => 'The :attribute has too many things already. Max is :max'
     ],
 
     /*
