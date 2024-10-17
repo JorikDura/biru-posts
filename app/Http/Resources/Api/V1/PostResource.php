@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             $this->mergeWhen(!$this->relationLoaded('user'), ['user_id' => $this->user_id]),
             'text' => $this->text,
-            'likes_count' => $this->likes_count,
+            'likes_count' => $this->whenHas('likes_count'),
             'is_liked' => $this->whenHas('is_liked'),
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
