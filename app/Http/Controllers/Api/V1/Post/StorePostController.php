@@ -10,6 +10,10 @@ use App\Http\Resources\Api\V1\PostResource;
 
 class StorePostController extends Controller
 {
+    /**
+     * @param  StorePostAction  $action
+     * @return PostResource
+     */
     public function __invoke(StorePostAction $action): PostResource
     {
         $post = $action();

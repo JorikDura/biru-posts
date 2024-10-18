@@ -11,6 +11,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class IndexPostCommentController extends Controller
 {
+    /**
+     * @param  int  $postId
+     * @param  IndexPostCommentAction  $action
+     * @return AnonymousResourceCollection
+     */
     public function __invoke(
         int $postId,
         IndexPostCommentAction $action

@@ -11,6 +11,11 @@ use App\Models\Post;
 
 class StorePostCommentController extends Controller
 {
+    /**
+     * @param  Post  $post
+     * @param  StoreCommentAction  $action
+     * @return CommentResource
+     */
     public function __invoke(
         Post $post,
         StoreCommentAction $action
