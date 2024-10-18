@@ -178,7 +178,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'counter' => 'Поле :attribute переполнено. Максимум - :max'
+        'counter' => 'Поле :attribute переполнено. Максимум - :max',
+        'no-user-id' => 'Токен для :attribute обязателен.'
     ],
 
     /*

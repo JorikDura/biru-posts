@@ -176,7 +176,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'counter' => 'The :attribute has too many things already. Max is :max'
+        'counter' => 'The :attribute has too many things already. Max is :max',
+        'no-user-id' => 'For :attribute auth token is required.'
     ],
 
     /*
