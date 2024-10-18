@@ -204,6 +204,26 @@ describe('posts tests', function () {
         );
     });
 
+    it('get liked posts', function () {
+        /** @var Post $post */
+        $post = Post::factory()->create();
+
+        $post->likes()->attach($this->user);
+
+        actingAs($this->user)
+            ->getJson("api/v1/posts?filter[is_liked]=1")
+            ->assertSuccessful()
+            ->assertSee([
+                'text' => $post->text
+            ]);
+
+        getJson("api/v1/posts?filter[user_liked_id]={$this->user->id}")
+            ->assertSuccessful()
+            ->assertSee([
+                'text' => $post->text
+            ]);
+    });
+
     it('store post comment', function () {
         /** @var Post $post */
         $post = $this->posts->random();
