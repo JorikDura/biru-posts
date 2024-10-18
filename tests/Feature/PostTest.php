@@ -204,7 +204,7 @@ describe('posts tests', function () {
         );
     });
 
-    it('get liked posts', function () {
+    it('get user liked posts', function () {
         /** @var Post $post */
         $post = Post::factory()->create();
 
@@ -221,6 +221,20 @@ describe('posts tests', function () {
             ->assertSuccessful()
             ->assertSee([
                 'text' => $post->text
+            ]);
+    });
+
+    it('get liked users', function () {
+        /** @var Post $post */
+        $post = Post::factory()->create();
+
+        $post->likes()->attach($this->user);
+
+        getJson("api/v1/posts/$post->id/liked")
+            ->assertSuccessful()
+            ->assertSee([
+                'id' => $this->user->id,
+                'username' => $this->user->username
             ]);
     });
 

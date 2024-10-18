@@ -336,6 +336,34 @@ json:
 }
 ```
 
+### Get liked users via post id
+
+```
+GET api/v1/posts/{id}/liked
+```
+
+Где `id` — id поста
+
+Возвращает список пользователей лайкнувших пост.
+
+json:
+
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "username": "vipshock",
+            "image": {
+                "id": 23,
+                "original_image_url": "http://localhost/storage/images/users/image.jpg",
+                "preview_image_url": "http://localhost/storage/images/users/image-scaled.jpg"
+            }
+        }
+    ]
+}
+```
+
 ### Like post
 
 ```

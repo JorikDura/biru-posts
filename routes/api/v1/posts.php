@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Post\Comment\IndexPostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\StorePostCommentController;
 use App\Http\Controllers\Api\V1\Post\DeletePostController;
 use App\Http\Controllers\Api\V1\Post\IndexPostController;
+use App\Http\Controllers\Api\V1\Post\IndexPostLikedController;
 use App\Http\Controllers\Api\V1\Post\LikePostController;
 use App\Http\Controllers\Api\V1\Post\ShowPostController;
 use App\Http\Controllers\Api\V1\Post\StorePostController;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1/posts'], function () {
     Route::get('/', IndexPostController::class);
     Route::get('/{post}', ShowPostController::class);
+    Route::get('/{post}/liked', IndexPostLikedController::class);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', StorePostController::class);
         Route::group(['prefix' => '/{post}'], function () {
