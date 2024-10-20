@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Traits\BelongsToUser;
-use App\Traits\HasComments;
-use App\Traits\HasImages;
+use App\Traits\Relations\BelongsToUser;
+use App\Traits\Relations\HasComments;
+use App\Traits\Relations\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

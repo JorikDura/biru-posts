@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Traits\Relations;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Collection;
