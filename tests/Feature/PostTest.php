@@ -104,29 +104,59 @@ describe('posts tests', function () {
             'user_id' => $this->user->id
         ]);
 
-        $original = TestHelpers::storeFakeFiles(
+        //коммент для поста
+        $comment = Comment::factory()->create([
+            'user_id' => $this->user->id,
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class
+        ]);
+
+        //картинки для поста
+        $originalPostImage = TestHelpers::storeFakeFiles(
             path: 'images/posts',
-            name: 'test.jpg'
+            name: 'test-post.jpg'
         );
 
-        $preview = TestHelpers::storeFakeFiles(
+        $previewPostImage = TestHelpers::storeFakeFiles(
             path: 'images/posts',
-            name: 'test-scaled.jpg'
+            name: 'test-post-scaled.jpg'
         );
 
-        $imageData = [
+        //картинки для комментария
+        $originalPostCommentImage = TestHelpers::storeFakeFiles(
+            path: 'images/posts',
+            name: 'test-post.jpg'
+        );
+
+        $previewPostCommentImage = TestHelpers::storeFakeFiles(
+            path: 'images/posts',
+            name: 'test-post-scaled.jpg'
+        );
+
+        /** @var Image $postImage */
+        $postImage = Image::factory()->create([
             'imageable_id' => $post->id,
             'imageable_type' => Post::class,
-            'original_image' => $original,
-            'preview_image' => $preview
-        ];
+            'original_image' => $originalPostImage,
+            'preview_image' => $previewPostImage
+        ]);
 
-        /** @var Image $image */
-        $image = Image::factory()->create($imageData);
+        /** @var Image $postCommentImage */
+        $postCommentImage = Image::factory()->create([
+            'imageable_id' => $post->id,
+            'imageable_type' => Post::class,
+            'original_image' => $originalPostCommentImage,
+            'preview_image' => $previewPostCommentImage
+        ]);
 
         Storage::disk('public')->assertExists([
-            $image->original_image,
-            $image->preview_image,
+            $postImage->original_image,
+            $postImage->preview_image,
+        ]);
+
+        Storage::disk('public')->assertExists([
+            $postCommentImage->original_image,
+            $postCommentImage->preview_image,
         ]);
 
         actingAs($this->user)
@@ -141,12 +171,24 @@ describe('posts tests', function () {
 
         assertDatabaseMissing(
             table: 'images',
-            data: $imageData
+            data: $postImage->toArray()
+        );
+
+        assertDatabaseMissing(
+            table: 'comments',
+            data: $comment->toArray()
+        );
+
+        assertDatabaseMissing(
+            table: 'images',
+            data: $postCommentImage->toArray()
         );
 
         Storage::disk('public')->assertMissing([
-            $image->original_image,
-            $image->preview_image
+            $postImage->original_image,
+            $postImage->preview_image,
+            $postCommentImage->original_image,
+            $postCommentImage->preview_image
         ]);
     });
 

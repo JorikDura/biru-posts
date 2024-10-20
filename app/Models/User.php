@@ -4,12 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
+use App\Traits\HasComments;
+use App\Traits\HasImage;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -20,6 +20,8 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use HasApiTokens;
+    use HasImage;
+    use HasComments;
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +60,15 @@ class User extends Authenticatable
         ];
     }
 
+    public function delete(): ?bool
+    {
+        $this->deleteImage();
+
+        $this->deleteComments();
+
+        return parent::delete();
+    }
+
     public function isAdmin(): bool
     {
         return $this->role == UserRole::ADMIN;
@@ -66,16 +77,6 @@ class User extends Authenticatable
     public function isModerator(): bool
     {
         return $this->role == UserRole::MODERATOR;
-    }
-
-    public function image(): MorphOne
-    {
-        return $this->morphOne(Image::class, 'imageable');
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function posts(): HasMany

@@ -10,10 +10,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 final readonly class IndexUserAction
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @return LengthAwarePaginator
      */

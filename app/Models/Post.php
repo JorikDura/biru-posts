@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
+use App\Traits\HasComments;
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
     use HasFactory;
+    use HasComments;
+    use HasImages;
+    use BelongsToUser;
 
     protected $fillable = [
         'text',
-        'user_id',
+        'user_id'
     ];
 
-    public function user(): BelongsTo
+    public function delete(): ?bool
     {
-        return $this->belongsTo(User::class);
+        $this->deleteImages();
+
+        $this->deleteComments();
+
+        return parent::delete();
     }
 
     public function likes(): BelongsToMany
@@ -29,19 +37,9 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'like_post');
     }
 
-    public function images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'imageable');
-    }
-
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function loadFull(): self

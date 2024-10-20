@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class Image extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
     protected $fillable = [
         'imageable_id',

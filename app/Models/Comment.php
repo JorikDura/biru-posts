@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
     use HasFactory;
+    use HasImages;
+    use BelongsToUser;
 
     protected $fillable = [
         'user_id',
@@ -26,14 +28,11 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function images(): MorphMany
+    public function delete(): ?bool
     {
-        return $this->morphMany(Image::class, 'imageable');
-    }
+        $this->deleteImages();
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        return parent::delete();
     }
 
     public function isCommentableUser(int $userId): bool
