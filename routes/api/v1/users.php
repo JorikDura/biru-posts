@@ -14,7 +14,8 @@ Route::group(['prefix' => 'v1/users'], function () {
         Route::get('/', IndexUserCommentController::class);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', StoreUserCommentController::class);
-            Route::delete('/', DeleteUserCommentController::class);
+            Route::delete('/{comment}', DeleteUserCommentController::class)
+                ->can('delete', 'comment');
         });
     });
 });

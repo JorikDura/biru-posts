@@ -35,4 +35,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function isCommentableUser(int $userId): bool
+    {
+        return $this->commentable_type === User::class && $this->commentable_id === $userId;
+    }
 }

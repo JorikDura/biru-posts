@@ -12,8 +12,15 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, string $ability): ?bool
+    {
+        return ($user->isAdmin() || $user->isModerator())
+            ? true
+            : null;
+    }
+
     public function delete(User $user, Comment $comment): bool
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $comment->user_id || $comment->isCommentableUser($user->id);
     }
 }

@@ -150,6 +150,20 @@ describe('posts tests', function () {
         ]);
     });
 
+    it('delete another user post', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        actingAs($this->user)
+            ->deleteJson("api/v1/posts/$post->id")
+            ->assertForbidden();
+
+        assertDatabaseHas(
+            table: 'posts',
+            data: $post->toArray()
+        );
+    });
+
     it('get post comments', function () {
         /** @var Post $post */
         $post = $this->posts->random();
@@ -291,6 +305,28 @@ describe('posts tests', function () {
             )->assertSuccessful()->assertNoContent();
 
         assertDatabaseMissing(
+            table: 'comments',
+            data: $comment->toArray()
+        );
+    });
+
+    it('delete another user post comment', function () {
+        /** @var Post $post */
+
+        $post = $this->posts->random();
+
+        $comment = Comment::factory()->create([
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'text' => fake()->text()
+        ]);
+
+        actingAs($this->user)
+            ->deleteJson(
+                uri: "api/v1/posts/$post->id/comments/$comment->id"
+            )->assertForbidden();
+
+        assertDatabaseHas(
             table: 'comments',
             data: $comment->toArray()
         );

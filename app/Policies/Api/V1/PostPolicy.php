@@ -12,6 +12,13 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, string $ability): ?bool
+    {
+        return ($user->isAdmin() || $user->isModerator())
+            ? true
+            : null;
+    }
+
     public function update(User $user, Post $post): bool
     {
         return $user->id === $post->user_id;
