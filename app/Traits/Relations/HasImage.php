@@ -19,8 +19,6 @@ trait HasImage
         /** @var ?Image $image */
         $image = $this->image()->first();
 
-        $image?->deleteImagesInStorage();
-
         $image->delete();
     }
 }
