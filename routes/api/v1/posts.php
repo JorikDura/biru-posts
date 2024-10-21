@@ -5,11 +5,11 @@ use App\Http\Controllers\Api\V1\Post\Comment\IndexPostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\StorePostCommentController;
 use App\Http\Controllers\Api\V1\Post\DeletePostController;
 use App\Http\Controllers\Api\V1\Post\IndexPostController;
-use App\Http\Controllers\Api\V1\Post\IndexPostLikedController;
-use App\Http\Controllers\Api\V1\Post\LikePostController;
+use App\Http\Controllers\Api\V1\Post\Like\IndexPostLikedController;
+use App\Http\Controllers\Api\V1\Post\Like\LikePostController;
+use App\Http\Controllers\Api\V1\Post\Like\UnlikePostController;
 use App\Http\Controllers\Api\V1\Post\ShowPostController;
 use App\Http\Controllers\Api\V1\Post\StorePostController;
-use App\Http\Controllers\Api\V1\Post\UnlikePostController;
 use App\Http\Controllers\Api\V1\Post\UpdatePostController;
 use Illuminate\Support\Facades\Route;
 
