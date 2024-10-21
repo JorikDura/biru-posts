@@ -29,6 +29,7 @@ final readonly class StoreCommentAction
         return DB::transaction(function () use ($model) {
             $comment = Comment::create([
                 'user_id' => $this->user->id,
+                'comment_id' => $this->request->validated('comment_id'),
                 'commentable_id' => $model->getKey(),
                 'commentable_type' => $model::class,
                 'text' => $this->request->validated('text')

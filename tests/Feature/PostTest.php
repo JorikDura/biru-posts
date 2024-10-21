@@ -299,23 +299,26 @@ describe('posts tests', function () {
         $post = $this->posts->random();
 
         $data = [
-            'user_id' => $this->user->id,
-            'commentable_id' => $post->id,
-            'commentable_type' => Post::class,
-            'text' => fake()->text()
+            'text' => fake()->text(),
+            'images' => TestHelpers::randomUploadedFiles(max: 5)
         ];
 
         $test = actingAs($this->user)
             ->postJson(
                 uri: "api/v1/posts/$post->id/comments",
-                data: $data + ['images' => TestHelpers::randomUploadedFiles(max: 5)]
+                data: $data
             )->assertSuccessful()->assertSee([
                 'text' => $data['text']
             ]);
 
         assertDatabaseHas(
             table: 'comments',
-            data: $data
+            data: [
+                'user_id' => $this->user->id,
+                'commentable_id' => $post->id,
+                'commentable_type' => Post::class,
+                'text' => $data['text']
+            ]
         );
 
         /** @var Post $author */
@@ -328,6 +331,42 @@ describe('posts tests', function () {
             $image->original_image,
             $image->preview_image
         ]);
+    });
+
+    it('store related comment', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        $comment = Comment::factory()->create([
+            'user_id' => $this->user->id,
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'text' => fake()->text()
+        ]);
+
+        $data = [
+            'comment_id' => $comment->id,
+            'text' => fake()->text()
+        ];
+
+        actingAs($this->user)
+            ->postJson(
+                uri: "api/v1/posts/$post->id/comments",
+                data: $data
+            )->assertSuccessful()->assertSee([
+                'text' => $data['text']
+            ]);
+
+        assertDatabaseHas(
+            table: 'comments',
+            data: [
+                'user_id' => $this->user->id,
+                'comment_id' => $comment->id,
+                'commentable_id' => $post->id,
+                'commentable_type' => Post::class,
+                'text' => $data['text']
+            ]
+        );
     });
 
     it('delete post comment', function () {

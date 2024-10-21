@@ -11,6 +11,7 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'comment_id' => ['nullable', 'int', 'exists:comments,id'],
             'text' => ['required_without:images', 'string', 'max:255'],
             'images' => ['nullable', 'array', 'max:5'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:102400']

@@ -19,6 +19,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'user' => UserResource::make($this->whenLoaded('user')),
             $this->mergeWhen(!$this->relationLoaded('user'), ['user_id' => $this->user_id,]),
+            'comment_id' => $this->comment_id,
             'text' => $this->text,
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'created_at' => $this->created_at,
