@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Api\V1\Post;
 
-use App\Actions\Images\StoreImageAction;
 use App\Http\Requests\Api\V1\Post\StorePostRequest;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -16,8 +16,7 @@ final readonly class StorePostAction
 {
     public function __construct(
         #[CurrentUser] private User $user,
-        private StorePostRequest $request,
-        private StoreImageAction $storeImageAction
+        private StorePostRequest $request
     ) {
     }
 
@@ -41,7 +40,7 @@ final readonly class StorePostAction
                 $post->tags()->attach($tagsIds);
             });
 
-            $this->request->whenHas('images', fn (array $images) => $this->storeImageAction->storeMany(
+            $this->request->whenHas('images', fn (array $images) => Image::insert(
                 files: $images,
                 model: $post
             ));

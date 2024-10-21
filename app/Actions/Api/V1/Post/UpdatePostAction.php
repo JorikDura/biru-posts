@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Actions\Api\V1\Post;
 
-use App\Actions\Images\StoreImageAction;
 use App\Http\Requests\Api\V1\Post\UpdatePostRequest;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
-use ReflectionException;
 
 final readonly class UpdatePostAction
 {
     public function __construct(
-        private UpdatePostRequest $request,
-        private StoreImageAction $storeImageAction
+        private UpdatePostRequest $request
     ) {
     }
 
     /**
      * @param  Post  $post
      * @return Post
-     * @throws ReflectionException
      */
     public function __invoke(Post $post): Post
     {
@@ -40,7 +37,7 @@ final readonly class UpdatePostAction
             $post->tags()->sync($tagsIds);
         });
 
-        $this->request->whenHas('images', fn (array $images) => $this->storeImageAction->storeMany(
+        $this->request->whenHas('images', fn (array $images) => Image::insert(
             files: $images,
             model: $post
         ));

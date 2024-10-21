@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Api\V1\Comment;
 
-use App\Actions\Images\StoreImageAction;
 use App\Http\Requests\Api\V1\Comment\StoreCommentRequest;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Model;
@@ -16,8 +16,7 @@ final readonly class StoreCommentAction
 {
     public function __construct(
         #[CurrentUser] private User $user,
-        private StoreCommentRequest $request,
-        private StoreImageAction $storeImageAction,
+        private StoreCommentRequest $request
     ) {
     }
 
@@ -36,7 +35,7 @@ final readonly class StoreCommentAction
             ]);
 
             $this->request->whenHas('images', function (array $images) use ($comment) {
-                $this->storeImageAction->storeMany(
+                Image::insert(
                     files: $images,
                     model: $comment
                 );
