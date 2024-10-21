@@ -20,10 +20,10 @@ final readonly class LikeAction
 
     /**
      * @param  Model  $model
-     * @return void
+     * @return int
      * @throws Exception
      */
-    public function __invoke(Model $model): void
+    public function __invoke(Model $model): int
     {
         if (!method_exists($model, 'likes')) {
             throw new Exception(
@@ -32,5 +32,7 @@ final readonly class LikeAction
         }
 
         $model->likes()->sync($this->user);
+
+        return $model->likes()->count();
     }
 }

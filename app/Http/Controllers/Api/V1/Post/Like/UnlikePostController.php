@@ -6,24 +6,24 @@ namespace App\Http\Controllers\Api\V1\Post\Like;
 
 use App\Actions\Api\V1\Like\UnlikeAction;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\LikeResource;
 use App\Models\Post;
 use Exception;
-use Illuminate\Http\Response;
 
 class UnlikePostController extends Controller
 {
     /**
      * @param  Post  $post
      * @param  UnlikeAction  $action
-     * @return Response
+     * @return LikeResource
      * @throws Exception
      */
     public function __invoke(
         Post $post,
         UnlikeAction $action
-    ): Response {
-        $action($post);
+    ): LikeResource {
+        $likesCount = $action($post);
 
-        return response()->noContent();
+        return LikeResource::make($likesCount);
     }
 }

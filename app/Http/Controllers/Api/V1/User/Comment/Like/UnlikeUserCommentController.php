@@ -6,10 +6,10 @@ namespace App\Http\Controllers\Api\V1\User\Comment\Like;
 
 use App\Actions\Api\V1\Like\UnlikeAction;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\LikeResource;
 use App\Models\Comment;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Response;
 
 class UnlikeUserCommentController extends Controller
 {
@@ -17,16 +17,16 @@ class UnlikeUserCommentController extends Controller
      * @param  User  $user
      * @param  Comment  $comment
      * @param  UnlikeAction  $action
-     * @return Response
+     * @return LikeResource
      * @throws Exception
      */
     public function __invoke(
         User $user,
         Comment $comment,
         UnlikeAction $action
-    ): Response {
-        $action($comment);
+    ): LikeResource {
+        $likesCount = $action($comment);
 
-        return response()->noContent();
+        return LikeResource::make($likesCount);
     }
 }
