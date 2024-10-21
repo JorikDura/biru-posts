@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Post;
 
-use App\Actions\Api\V1\Post\IndexPostLikedAction;
+use App\Actions\Api\V1\Post\Like\IndexPostLikedAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\Post;

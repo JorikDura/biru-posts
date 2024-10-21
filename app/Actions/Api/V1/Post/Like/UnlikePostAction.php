@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Api\V1\Post;
+namespace App\Actions\Api\V1\Post\Like;
 
 use App\Models\Post;
 use App\Models\User;
