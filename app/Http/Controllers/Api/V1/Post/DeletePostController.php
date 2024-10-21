@@ -14,7 +14,8 @@ class DeletePostController extends Controller
      * @param  Post  $post
      * @return Response
      */
-    public function __invoke(Post $post): Response {
+    public function __invoke(Post $post): Response
+    {
         $post->delete();
 
         return response()->noContent();
