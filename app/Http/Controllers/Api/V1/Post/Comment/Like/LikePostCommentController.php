@@ -2,27 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1\Post\Like;
+namespace App\Http\Controllers\Api\V1\Post\Comment\Like;
 
-use App\Actions\Api\V1\Like\UnlikeAction;
+use App\Actions\Api\V1\Like\LikeAction;
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use Exception;
 use Illuminate\Http\Response;
 
-class UnlikePostController extends Controller
+class LikePostCommentController extends Controller
 {
     /**
      * @param  Post  $post
-     * @param  UnlikeAction  $action
+     * @param  Comment  $comment
+     * @param  LikeAction  $action
      * @return Response
      * @throws Exception
      */
     public function __invoke(
         Post $post,
-        UnlikeAction $action
+        Comment $comment,
+        LikeAction $action
     ): Response {
-        $action($post);
+        $action($comment);
 
         return response()->noContent();
     }

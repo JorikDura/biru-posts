@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\V1\Post\Comment\DeletePostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\IndexPostCommentController;
+use App\Http\Controllers\Api\V1\Post\Comment\Like\LikePostCommentController;
+use App\Http\Controllers\Api\V1\Post\Comment\Like\UnlikePostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\StorePostCommentController;
 use App\Http\Controllers\Api\V1\Post\DeletePostController;
 use App\Http\Controllers\Api\V1\Post\IndexPostController;
@@ -33,8 +35,12 @@ Route::group(['prefix' => 'v1/posts'], function () {
         Route::get('/', IndexPostCommentController::class);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', StorePostCommentController::class);
-            Route::delete('/{comment}', DeletePostCommentController::class)
-                ->can('delete', 'comment');
+            Route::prefix('/{comment}')->group(function () {
+                Route::post('/like', LikePostCommentController::class);
+                Route::post('/unlike', UnLikePostCommentController::class);
+                Route::delete('/', DeletePostCommentController::class)
+                    ->can('delete', 'comment');
+            });
         });
     });
 });

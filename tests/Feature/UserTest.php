@@ -54,6 +54,56 @@ describe('users tests', function () {
             ]);
     });
 
+    it('like user comment', function () {
+        /** @var User $user */
+        $user = $this->users->random();
+
+        $comment = Comment::factory()->create([
+            'user_id' => $user->id,
+            'commentable_id' => $user->id,
+            'commentable_type' => User::class
+        ]);
+
+        actingAs($user)
+            ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/like")
+            ->assertSuccessful()
+            ->assertNoContent();
+
+        assertDatabaseHas(
+            table: 'like_comment',
+            data: [
+                'user_id' => $user->id,
+                'comment_id' => $comment->id
+            ]
+        );
+    });
+
+    it('unlike user comment', function () {
+        /** @var User $user */
+        $user = $this->users->random();
+
+        $comment = Comment::factory()->create([
+            'user_id' => $user->id,
+            'commentable_id' => $user->id,
+            'commentable_type' => User::class
+        ]);
+
+        $comment->likes()->sync($user);
+
+        actingAs($user)
+            ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/unlike")
+            ->assertSuccessful()
+            ->assertNoContent();
+
+        assertDatabaseMissing(
+            table: 'like_comment',
+            data: [
+                'user_id' => $user->id,
+                'comment_id' => $comment->id
+            ]
+        );
+    });
+
     it('store user comments', function () {
         /** @var User $user */
         $user = $this->users->random();

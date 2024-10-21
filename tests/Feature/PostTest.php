@@ -294,6 +294,58 @@ describe('posts tests', function () {
             ]);
     });
 
+    it('like post comment', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        $comment = Comment::factory()->create([
+            'user_id' => $this->user->id,
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'text' => fake()->text()
+        ]);
+
+        actingAs($this->user)
+            ->postJson(
+                uri: "api/v1/posts/$post->id/comments/$comment->id/like",
+            )->assertSuccessful()->assertNoContent();
+
+        assertDatabaseHas(
+            table: 'like_comment',
+            data: [
+                'user_id' => $this->user->id,
+                'comment_id' => $comment->id
+            ]
+        );
+    });
+
+    it('unlike post comment', function () {
+        /** @var Post $post */
+        $post = $this->posts->random();
+
+        $comment = Comment::factory()->create([
+            'user_id' => $this->user->id,
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'text' => fake()->text()
+        ]);
+
+        $comment->likes()->sync($this->user);
+
+        actingAs($this->user)
+            ->postJson(
+                uri: "api/v1/posts/$post->id/comments/$comment->id/unlike",
+            )->assertSuccessful()->assertNoContent();
+
+        assertDatabaseMissing(
+            table: 'like_comment',
+            data: [
+                'user_id' => $this->user->id,
+                'comment_id' => $comment->id
+            ]
+        );
+    });
+
     it('store post comment', function () {
         /** @var Post $post */
         $post = $this->posts->random();

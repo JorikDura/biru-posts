@@ -553,13 +553,41 @@ json:
 }
 ```
 
+### Like comment
+
+```
+POST api/v1/{model}/{id}/comments/{commentId}/like
+```
+
+Где `model` — название модели (users, posts), `id` — id модели и `commentId` — id комментария
+
+Лайкнуть комментарий.
+
+Требует токен.
+
+Возвращает статус 204.
+
+### Unlike comment
+
+```
+POST api/v1/{model}/{id}/comments/{commentId}/unlike
+```
+
+Где `model` — название модели (users, posts), `id` — id модели и `commentId` — id комментария
+
+Убрать лайк с комментария.
+
+Требует токен.
+
+Возвращает статус 204.
+
 ### Store comment
 
 ```
 POST api/v1/{model}/{id}/comments
 ```
 
-Где `model` — название модели (users, posts) и `id` — id пользователя
+Где `model` — название модели (users, posts) и `id` — id модели
 
 Создает новый комментарий модели.
 
@@ -600,7 +628,7 @@ json:
 DELETE api/v1/{model}/{id}/comments/{commentId}
 ```
 
-Где `model` — название модели (users, posts), `id` — id пользователя `commentId` — id комментария
+Где `model` — название модели (users, posts), `id` — id модели `commentId` — id комментария
 
 Удаляет комментарий пользователя.
 
