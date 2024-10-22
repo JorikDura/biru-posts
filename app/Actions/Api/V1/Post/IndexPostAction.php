@@ -76,6 +76,7 @@ final readonly class IndexPostAction
                     as: 'is_liked'
                 )
             )
+            ->orderByDesc('created_at')
             ->paginate()
             ->appends($this->request->query());
     }
