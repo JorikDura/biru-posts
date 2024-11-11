@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Post\Like;
 
-use App\Actions\Api\V1\Like\UnlikeAction;
+use App\Actions\Api\V1\Like\LikeAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\LikeResource;
 use App\Models\Post;
@@ -14,13 +14,13 @@ class UnlikePostController extends Controller
 {
     /**
      * @param  Post  $post
-     * @param  UnlikeAction  $action
+     * @param  LikeAction  $action
      * @return LikeResource
      * @throws Exception
      */
     public function __invoke(
         Post $post,
-        UnlikeAction $action
+        LikeAction $action
     ): LikeResource {
         $likesCount = $action($post);
 

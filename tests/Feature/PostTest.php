@@ -231,7 +231,9 @@ describe('posts tests', function () {
         actingAs($this->user)
             ->postJson("api/v1/posts/$post->id/like")
             ->assertSuccessful()
-            ->assertNoContent();
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseHas(
             table: 'like_post',
@@ -246,10 +248,14 @@ describe('posts tests', function () {
         /** @var Post $post */
         $post = $this->posts->random();
 
+        $post->likes()->toggle($this->user->id);
+
         actingAs($this->user)
             ->postJson("api/v1/posts/$post->id/unlike")
             ->assertSuccessful()
-            ->assertNoContent();
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseMissing(
             table: 'like_post',
@@ -308,7 +314,11 @@ describe('posts tests', function () {
         actingAs($this->user)
             ->postJson(
                 uri: "api/v1/posts/$post->id/comments/$comment->id/like",
-            )->assertSuccessful()->assertNoContent();
+            )
+            ->assertSuccessful()
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseHas(
             table: 'like_comment',
@@ -335,7 +345,11 @@ describe('posts tests', function () {
         actingAs($this->user)
             ->postJson(
                 uri: "api/v1/posts/$post->id/comments/$comment->id/unlike",
-            )->assertSuccessful()->assertNoContent();
+            )
+            ->assertSuccessful()
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseMissing(
             table: 'like_comment',

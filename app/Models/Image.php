@@ -142,7 +142,7 @@ class Image extends Model
 
         self::query()->insert($result['data']);
 
-        for ($i = 0; $i < count($result['images']); $i++) {
+        for ($i = 0, $iMax = count($result['images']); $i < $iMax; $i++) {
             self::storeImageToDisk(
                 names: [
                     'original' => $result['data'][$i]['original_image'],

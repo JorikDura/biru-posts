@@ -67,7 +67,9 @@ describe('users tests', function () {
         actingAs($user)
             ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/like")
             ->assertSuccessful()
-            ->assertNoContent();
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseHas(
             table: 'like_comment',
@@ -93,7 +95,9 @@ describe('users tests', function () {
         actingAs($user)
             ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/unlike")
             ->assertSuccessful()
-            ->assertNoContent();
+            ->assertSee([
+                'likes_count'
+            ]);
 
         assertDatabaseMissing(
             table: 'like_comment',
