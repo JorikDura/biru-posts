@@ -93,7 +93,7 @@ describe('users tests', function () {
         $comment->likes()->sync($user);
 
         actingAs($user)
-            ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/unlike")
+            ->postJson(uri: "api/v1/users/$user->id/comments/$comment->id/like")
             ->assertSuccessful()
             ->assertSee([
                 'likes_count'

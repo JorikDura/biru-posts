@@ -3,13 +3,11 @@
 use App\Http\Controllers\Api\V1\Post\Comment\DeletePostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\IndexPostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\Like\LikePostCommentController;
-use App\Http\Controllers\Api\V1\Post\Comment\Like\UnlikePostCommentController;
 use App\Http\Controllers\Api\V1\Post\Comment\StorePostCommentController;
 use App\Http\Controllers\Api\V1\Post\DeletePostController;
 use App\Http\Controllers\Api\V1\Post\IndexPostController;
 use App\Http\Controllers\Api\V1\Post\Like\IndexPostLikedController;
 use App\Http\Controllers\Api\V1\Post\Like\LikePostController;
-use App\Http\Controllers\Api\V1\Post\Like\UnlikePostController;
 use App\Http\Controllers\Api\V1\Post\ShowPostController;
 use App\Http\Controllers\Api\V1\Post\StorePostController;
 use App\Http\Controllers\Api\V1\Post\UpdatePostController;
@@ -23,7 +21,6 @@ Route::group(['prefix' => 'v1/posts'], function () {
         Route::post('/', StorePostController::class);
         Route::group(['prefix' => '/{post}'], function () {
             Route::post('/like', LikePostController::class);
-            Route::post('/unlike', UnlikePostController::class);
             Route::match(['PUT', 'PATCH'], '/', UpdatePostController::class)
                 ->can('update', 'post');
             Route::delete('/', DeletePostController::class)
@@ -37,7 +34,6 @@ Route::group(['prefix' => 'v1/posts'], function () {
             Route::post('/', StorePostCommentController::class);
             Route::prefix('/{comment}')->group(function () {
                 Route::post('/like', LikePostCommentController::class);
-                Route::post('/unlike', UnLikePostCommentController::class);
                 Route::delete('/', DeletePostCommentController::class)
                     ->can('delete', 'comment');
             });

@@ -251,7 +251,7 @@ describe('posts tests', function () {
         $post->likes()->toggle($this->user->id);
 
         actingAs($this->user)
-            ->postJson("api/v1/posts/$post->id/unlike")
+            ->postJson("api/v1/posts/$post->id/like")
             ->assertSuccessful()
             ->assertSee([
                 'likes_count'
@@ -344,7 +344,7 @@ describe('posts tests', function () {
 
         actingAs($this->user)
             ->postJson(
-                uri: "api/v1/posts/$post->id/comments/$comment->id/unlike",
+                uri: "api/v1/posts/$post->id/comments/$comment->id/like",
             )
             ->assertSuccessful()
             ->assertSee([
